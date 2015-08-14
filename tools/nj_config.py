@@ -12,7 +12,7 @@ def julia_base_from_which_julia():
       if real_path:
          dirname = os.path.dirname(real_path)
          path = os.path.split(dirname)[0]
-   return path 
+   return path
 
 def julia_base_from_where_julia():
    path = "";
@@ -23,13 +23,19 @@ def julia_base_from_where_julia():
       if real_path:
          dirname = os.path.dirname(real_path)
          path = os.path.split(dirname)[0]
-   return path 
+   return path
 
 def julia_base_from_home_directory():
    home = os.path.expanduser("~")
    julia_dir = os.path.join(home,"julia")
    if os.path.isdir(julia_dir): return julia_dir
    return "";
+
+def julia_base_from_working_directory():
+    home = os.path.expanduser("~")
+    julia_dir = os.path.join(home,"julia")
+    if os.path.isdir(julia_dir): return julia_dir
+    return "";
 
 def julia_base_from_home_directory_win():
    home = os.path.expanduser("~")
@@ -53,6 +59,7 @@ def find_julia_base(platform):
    else:
       path = julia_base_from_which_julia()
       if path == "": path = julia_base_from_home_directory()
+      if path == "": path = julia_base_from_working_directory()
       if path == "" and len(sys.argv) > 1 and sys.argv[1] == "mac": path = julia_base_from_applications()
       path = re.sub(" ",r"\ ",path)
    return path
@@ -69,7 +76,7 @@ def get_nj_lib_define_variable():
 
 def get_julia_lib_define_variable(platform):
    if platform == "win": path = find_julia_base(platform) + "\\lib\\julia"
-   else: path = re.sub(r"\\ "," ",find_julia_base(platform)) + "/lib/julia" 
+   else: path = re.sub(r"\\ "," ",find_julia_base(platform)) + "/lib/julia"
    return re.sub(r"\\","\\\\\\\\",path)
 
 if sys.argv[2] == "version": print node_version()

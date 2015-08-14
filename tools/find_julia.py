@@ -11,7 +11,7 @@ def julia_from_which_julia():
       if real_path:
          head,tail = os.path.split(real_path)
          path,tail = os.path.split(head)
-   return path 
+   return path
 
 def julia_from_where_julia():
    path = "";
@@ -22,11 +22,17 @@ def julia_from_where_julia():
       if real_path:
          head,tail = os.path.split(real_path)
          path,tail = os.path.split(head)
-   return path 
+   return path
 
 def julia_from_home_directory():
    home = os.path.expanduser("~")
    julia_dir = os.path.join(home,"julia")
+   if os.path.isdir(julia_dir): return julia_dir
+   return "";
+
+def julia_from_working_directory():
+   wd = os.path("./")
+   julia_dir = os.path.join(wd,"julia")
    if os.path.isdir(julia_dir): return julia_dir
    return "";
 
@@ -45,12 +51,14 @@ def julia_from_applications():
    if os.path.isdir(julia_dir): return julia_dir
    return ""
 
-if sys.argv[1] == "win":
+if sys.argv[0] == "win":
    path = julia_from_where_julia()
    if path == "": path = julia_from_home_directory_win()
 else:
    path = julia_from_which_julia()
    if path == "": path = julia_from_home_directory()
+   if path == "": path = julia_from_working_directory()
    if path == "" and len(sys.argv) > 1 and sys.argv[1] == "mac": path = julia_from_applications()
 
+#if not path == "": print path
 if not path == "": print path
