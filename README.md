@@ -139,8 +139,8 @@ of **UInt8Array**.
 ## Use of Shared Buffers
 If the result of an expression would resolve to a JavaScript typed array, then
 the buffer that underlies that array is shared, not copied, between Julia and JavaScript.
-* This feature is currently supported on node 0.11, 0.12, and all versions of iojs
 * This feature is currently not avaiable when using node 0.10.
+* This feature is currently supported on all other versions of node and iojs
 * If the array originates within Julia, then a Javascript typed array will be
 created as described above with the same buffer used by Julia.
 * If the array originates within JavaScript then an equivalent Julia array will be created
@@ -154,13 +154,15 @@ Tests run using npm
     npm test
 
 # Compatibility
-Tested with [node](http://nodejs.org/) 0.10.x, 0.11.x, 0.12.x, [io.js](https://iojs.org/) 1.0
-and 2.x. Julia version 0.3.x is supported on all versions of node and iojs, but Julia
-0.4.x and node 0.10.x are currently incompatible.
+Tested with [node](http://nodejs.org/) 0.10, 0.11, 0.12, and 4.0 as well as
+[io.js](https://iojs.org/) 1.x, 2.x. 3.x.
+
+Julia version 0.3 is supported on all versions of node and iojs, but Julia 0.4+
+and node 0.10 are incompatible.
 
 Tested on OS/X, Linux, Windows.
 
 # Limitations
 
-* node 0.10 is deprecated due to recent changes to Julia that have caused
-an incompatibility between Julia 0.4 and node 0.10.
+* node 0.10 is deprecated due to Julia changes that have caused an incompatibility
+between Julia 0.4 and node 0.10.

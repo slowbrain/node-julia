@@ -67,7 +67,7 @@ describe('Regression Tests',function()
 
    it('version',function()
    {
-      expect(julia.eval('VERSION.minor')).to.within(3,4);
+      expect(julia.eval('VERSION.minor')).to.within(3,5);
    });
 
    it('eval max 32 bit Integer (4294967296)',function()
@@ -583,7 +583,7 @@ describe('Regression Tests',function()
       expect(julia.exec('identity',re)).to.eql(re);
    });
 
-   if(julia.eval('VERSION.minor') == 4)
+   if(julia.eval('VERSION.minor') >= 4)
    {
       it('preserve Date value of now()',function()
       {
@@ -907,6 +907,22 @@ describe('Regression Tests',function()
          done();
       });
    });
+
+   if(julia.eval('VERSION.minor') >= 4)
+   {
+      it('eval Union Array ops',function()
+      {
+         expect(julia.eval('Array(Union{UTF8String,ASCIIString},0)')).to.equal(undefined);
+      });
+   }
+   else
+   {
+      it('eval Union Array ops',function()
+      {
+         expect(julia.eval('Array(Union(UTF8String,ASCIIString),0)')).to.equal(undefined);
+      });
+   }
+
 
 /*
    it('Incremental updates',function()
